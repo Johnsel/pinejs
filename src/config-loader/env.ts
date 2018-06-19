@@ -22,3 +22,9 @@ export const cache = {
 		max: 10000
 	},
 }
+
+export const db = {
+	poolSize: 50,
+	idleTimeoutMillis: 30000,
+	connectionTimeoutMillis: 30000,
+}
