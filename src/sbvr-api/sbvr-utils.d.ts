@@ -10,7 +10,7 @@ export * from './permissions';
 export interface PinejsClient extends PinejsClientCoreFactory.PinejsClientCore<
 	PinejsClient,
 	Promise<{}>,
-	Promise<number | PinejsClientCoreFactory.AnyObject | PinejsClientCoreFactory.AnyObject[]>
+	Promise<PinejsClientCoreFactory.PromiseResultTypes>
 > {}
 
 export interface OdataBinds extends Array<any> {
@@ -51,17 +51,19 @@ export interface HookArgs {
 	tx?: Tx
 }
 
+type HookResponse = Promise<any> | null | void
+
 export interface Hooks {
-	PREPARSE?: (options: HookArgs) => Promise<any> | void;
-	POSTPARSE?: (options: HookArgs) => Promise<any> | void;
-	PRERUN?: (options: HookArgs & { tx: Tx }) => Promise<any> | void;
-	POSTRUN?: (options: HookArgs & { tx: Tx, result: any }) => Promise<any> | void;
+	PREPARSE?: (options: HookArgs) => HookResponse
+	POSTPARSE?: (options: HookArgs) => HookResponse
+	PRERUN?: (options: HookArgs & { tx: Tx }) => HookResponse
+	POSTRUN?: (options: HookArgs & { tx: Tx, result: any }) => HookResponse;
 	PRERESPOND?: (options: HookArgs & {
 		tx: Tx,
 		result: any,
 		res: any,
 		data?: any
-	}) => Promise<any> | void;
+	}) => HookResponse
 }
 
 export const db: Database
